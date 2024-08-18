@@ -16,21 +16,31 @@
         }
     ],
     "require": {
-        "php": "^7.4|^8.0",
-        "illuminate/support": "^8.0"
+        "php": "^7.4|^8.3",
+        "ext-json": "*",
+        "illuminate/filesystem": "^10.0|^11.0",
+        "illuminate/support": "^10.0|^11.0",
+        "illuminate/view": "^10.0|^11.0",
+        "nesbot/carbon": "^2.38|^3.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.0",
-        "phpunit/phpunit": "^9.0"
+        "guzzlehttp/guzzle": "^7.4",
+        "league/commonmark": "^1.4|^2.0",
+        "livewire/livewire": "^3.0",
+        "lorisleiva/cron-translator": "^0.1.1|^0.4",
+        "orchestra/testbench": "^8.0|^9.0",
+        "orchestra/testbench-dusk": "^8.0|^9.0",
+        "pestphp/pest": "^2.34",
+        "phpunit/phpunit": "^10.5|^11.0"
     },
     "autoload": {
         "psr-4": {
-            "Tooinfinity\\InfinityUiKit\\": "src"
+            "InfinityUiKit\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tooinfinity\\InfinityUiKit\\Tests\\": "tests"
+            "InfinityUiKit\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -39,16 +49,16 @@
 
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Tooinfinity\\InfinityUiKit\\InfinityUiKitServiceProvider"
-            ],
-            "aliases": {
-                "InfinityUiKit": "Tooinfinity\\InfinityUiKit\\InfinityUiKitFacade"
-            }
+                "InfinityUiKit\\InfinityUiKitServiceProvider"
+            ]
         }
     }
 }
