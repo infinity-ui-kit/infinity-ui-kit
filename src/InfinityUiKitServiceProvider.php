@@ -7,10 +7,11 @@ namespace InfinityUiKit;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
+use InfinityUiKit\Components\BladeComponent;
+use InfinityUiKit\Components\LivewireComponent;
 use InfinityUiKit\Console\PublishCommand;
 use Livewire\Livewire;
 use Illuminate\Support\Str;
-use Tooinfinity\InfinityUiKit\InfinityUiKit;
 
 class InfinityUiKitServiceProvider extends ServiceProvider
 {
