@@ -41,6 +41,7 @@ final class PublishCommand extends Command
         $class = str_replace('InfinityUiKit\\Components\\', '', $component);
         $view = str_replace(['_', '.-'], ['-', '/'], Str::snake(str_replace('\\', '.', $class))).'.blade.php';
 
+        // Publish the view
         if ($this->option('view') || ! $this->option('class')) {
             $originalView = __DIR__.'/../../resources/views/components/'.$view;
             $publishedView = $this->laravel->resourcePath('views/vendor/infinity-ui-kit/components/'.$view);
@@ -59,6 +60,7 @@ final class PublishCommand extends Command
             $this->info('Successfully published the component view!');
         }
 
+        // Publish the class
         if ($this->option('class') || ! $this->option('view')) {
             $path = $this->laravel->basePath('app/View/Components');
             $destination = $path.'/'.str_replace('\\', '/', $class).'.php';
@@ -96,6 +98,65 @@ final class PublishCommand extends Command
             $modifiedConfig = str_replace($component, 'App\\View\\Components\\'.$class, $originalConfig);
 
             $filesystem->put($config, $modifiedConfig);
+        }
+
+        // Publish CSS files if the --css option is provided
+        if ($this->option('css')) {
+            $originalCssPath = __DIR__.'/../../resources/css/'.$alias;
+            $publishedCssPath = $this->laravel->resourcePath('css/vendor/infinity-ui-kit/'.$alias);
+
+            // Check if the CSS files already exist and if force option is not provided
+            if (! $this->option('force') && $filesystem->exists($publishedCssPath)) {
+                $this->error("The CSS files at [$publishedCssPath] already exist.");
+
+                return 1;
+            }
+
+            // Ensure the directory exists
+            $filesystem->ensureDirectoryExists($publishedCssPath);
+
+            // Copy CSS files to the target location
+            $filesystem->copyDirectory($originalCssPath, $publishedCssPath);
+
+            $this->info('Successfully published the component CSS files!');
+        }
+
+        // Publish JS files if the --js option is provided
+        if ($this->option('js')) {
+            $originalJsPath = __DIR__.'/../../resources/js/'.$alias;
+            $publishedJsPath = $this->laravel->resourcePath('js/vendor/infinity-ui-kit/'.$alias);
+
+            // Check if the JS files already exist and if the force option is not provided
+            if (! $this->option('force') && $filesystem->exists($publishedJsPath)) {
+                $this->error("The JS files at [$publishedJsPath] already exist.");
+
+                return 1;
+            }
+
+            // Ensure the directory exists
+            $filesystem->ensureDirectoryExists($publishedJsPath);
+
+            // Copy JS files to the target location
+            $filesystem->copyDirectory($originalJsPath, $publishedJsPath);
+
+            $this->info('Successfully published the component JS files!');
+        }
+
+        // Publish assets (e.g., images, fonts)
+        if ($this->option('asset')) {
+            $originalAssetPath = __DIR__.'/../../public/'.$alias;
+            $publishedAssetPath = $this->laravel->publicPath('vendor/infinity-ui-kit/'.$alias);
+
+            if (! $this->option('force') && $filesystem->exists($publishedAssetPath)) {
+                $this->error("The asset at [$publishedAssetPath] already exists.");
+
+                return 1;
+            }
+
+            $filesystem->ensureDirectoryExists($publishedAssetPath);
+            $filesystem->copyDirectory($originalAssetPath, $publishedAssetPath);
+
+            $this->info('Successfully published the component assets!');
         }
 
         return 0;
