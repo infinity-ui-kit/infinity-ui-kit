@@ -18,7 +18,10 @@ final class PublishCommand extends Command
     protected $signature = 'buk:publish {component}
                             {--view : Publish only the view of the component}
                             {--class : Publish only the class of the component}
-                            {--force : Overwrite existing files}';
+                            {--force : Overwrite existing files}
+                            {--css : Publish css stylesheet}
+                            {--js : Publish js scripts}
+                            {asset} : Publish assets directory';
 
     /**
      * The console command description.
